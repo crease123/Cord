@@ -1,3 +1,9 @@
+# Cord (基于 Yank Note)
+
+人们开始结绳记事
+
+---
+
 # Yank Note
 
 A **highly extensible** Markdown editor, designed for productivity. **[Download](https://github.com/purocean/yn/releases)** | **[Try it Online >>>](https://demo.yank-note.com/)**
