@@ -1,6 +1,10 @@
+// @ts-ignore - default export issue
 import MarkdownItGithubAlerts from 'markdown-it-github-alerts'
+// @ts-ignore - default export issue
 import baseCss from 'markdown-it-github-alerts/styles/github-base.css?inline'
+// @ts-ignore - default export issue
 import lightCss from 'markdown-it-github-alerts/styles/github-colors-light.css?inline'
+// @ts-ignore - default export issue
 import darkCss from 'markdown-it-github-alerts/styles/github-colors-dark-class.css?inline'
 
 import type { Plugin } from '@fe/context'

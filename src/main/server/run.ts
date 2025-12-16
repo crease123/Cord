@@ -2,6 +2,7 @@ import * as fs from 'fs-extra'
 import * as os from 'os'
 import * as path from 'path'
 import * as cp from 'child_process'
+// @ts-ignore - glob has no type definitions
 import glob from 'glob'
 import config from '../config'
 import { mergeStreams } from '../helper'
@@ -10,6 +11,7 @@ const isWin = os.platform() === 'win32'
 
 function execFile (file: string, args: string[], options?: cp.ExecFileOptions) {
   return new Promise<string | NodeJS.ReadableStream>((resolve) => {
+    // @ts-ignore - TypeScript overload resolution issue
     const process = cp.execFile(file, args, { timeout: 300 * 1000, ...options })
 
     process.on('error', error => {
@@ -66,9 +68,9 @@ const runCode = async (cmd: { cmd: string, args: string[] } | string, code: stri
         await fs.writeFile(tmpFile, code)
 
         const removeTmpFiles = () => {
-          glob(tmpFileWithoutExt + '*', {}, (err, files) => {
+          glob(tmpFileWithoutExt + '*', {}, (err: Error | null, files: string[]) => {
             if (!err) {
-              files.forEach(file => {
+              files.forEach((file: string) => {
                 fs.remove(file)
               })
             }
