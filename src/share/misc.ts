@@ -47,8 +47,13 @@ export function getDefaultApplicationAccelerators (platform: NodeJS.Platform, la
       command: 'open-in-browser',
       accelerator: 'Meta+Shift+B',
       description: translate(lang, 'app.tray.open-in-browser')
+    },
+    {
+      command: 'toggle-fullscreen',
+      accelerator: 'F11',
+      description: translate(lang, 'app.toggle-fullscreen')
     }
-  ] as {command: 'show-main-window' | 'hide-main-window' | 'open-in-browser', accelerator: string | null, description: string}[]
+  ] as {command: 'show-main-window' | 'hide-main-window' | 'open-in-browser' | 'toggle-fullscreen', accelerator: string | null, description: string}[]
 }
 
 export function isNormalRepoName (repoName: string) {

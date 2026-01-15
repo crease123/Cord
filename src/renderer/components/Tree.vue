@@ -125,13 +125,21 @@ export default defineComponent({
   box-sizing: border-box;
   overflow: auto;
   padding-bottom: 20px;
+  padding-top: 8px;
 }
 
 .loading {
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   padding-top: 50%;
-  color: var(--g-color-40);
+  color: var(--yn-accent-primary, #2dd4bf);
+  opacity: 0.8;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
 }
 
 .add-repo-desc {
@@ -143,10 +151,23 @@ export default defineComponent({
 
 .add-repo-btn {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
-  color: var(--g-color-20);
+  color: var(--yn-accent-primary, #2dd4bf);
   margin-top: 20vh;
+  padding: 16px 24px;
+  border: 2px dashed var(--yn-border-default, rgba(255, 255, 255, 0.1));
+  border-radius: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
+    border-color: var(--yn-accent-primary, #2dd4bf);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px var(--yn-accent-glow, rgba(45, 212, 191, 0.25));
+  }
 }
 
 aside > ::v-deep(.tree-node) {
@@ -164,6 +185,24 @@ aside > ::v-deep(.tree-node) {
     height: 20px;
     color: var(--g-color-40);
     font-size: 14px;
+  }
+
+  .name {
+    padding: 4px 8px;
+    margin: 1px 4px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    font-size: 13px;
+
+    &:hover {
+      background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
+    }
+
+    &.selected {
+      background: linear-gradient(135deg, var(--yn-surface-active, rgba(45, 212, 191, 0.15)), rgba(45, 212, 191, 0.08)) !important;
+      border-left: 2px solid var(--yn-accent-primary, #2dd4bf);
+      font-weight: 500;
+    }
   }
 }
 </style>

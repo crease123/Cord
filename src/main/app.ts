@@ -598,7 +598,8 @@ if (!gotTheLock) {
     registerShortcut({
       'show-main-window': showWindow,
       'hide-main-window': hideWindow,
-      'open-in-browser': openInBrowser
+      'open-in-browser': openInBrowser,
+      'toggle-fullscreen': toggleFullscreen
     })
   })
 

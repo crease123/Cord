@@ -242,10 +242,10 @@ export default defineComponent({
 
 <style scoped>
 .title-bar {
-  background: #4e4e4e;
-  color: #eee;
+  background: linear-gradient(135deg, var(--yn-surface-1, #12161d) 0%, var(--yn-surface-2, #1a1f2a) 100%);
+  color: var(--g-foreground-color, #eee);
   height: 100%;
-  transition: all .1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -253,6 +253,9 @@ export default defineComponent({
   -webkit-app-region: drag;
   position: relative;
   z-index: 8000000;
+  border-bottom: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .resizer {
@@ -276,6 +279,12 @@ export default defineComponent({
   height: 60%;
   margin: 0 5px;
   -webkit-app-region: no-drag;
+  filter: drop-shadow(0 0 8px var(--yn-accent-glow, rgba(45, 212, 191, 0.25)));
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .action {
@@ -299,10 +308,16 @@ export default defineComponent({
 }
 
 .action .icon {
-  background-color: #cccccc;
+  background-color: var(--g-foreground-color, #cccccc);
   height: 100%;
   width: 100%;
   mask-size: 23.1%;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.action .btn:hover .icon {
+  opacity: 1;
 }
 
 .action .icon.unmaximize {
@@ -322,11 +337,12 @@ export default defineComponent({
 }
 
 .action .btn.btn-close:hover {
-  background-color: rgba(232, 17, 35, .9)
+  background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
 .action .btn:hover {
-  background-color:  hsla(0, 0%, 100%, .1)
+  background-color: var(--yn-surface-hover, hsla(0, 0%, 100%, .1));
+  border-radius: 4px;
 }
 
 .action .btn.pin {
@@ -336,7 +352,7 @@ export default defineComponent({
 }
 
 .action .btn.pin.ontop {
-  background-color: hsla(0, 0%, 100%, .3)
+  background-color: var(--yn-accent-glow, rgba(45, 212, 191, 0.25));
 }
 
 .title-bar.in-electron.is-macos .title {
