@@ -1,0 +1,217 @@
+// ============================================
+// 🎨 Yank Note 深度定制 UI - 「Obsidian Mint」主题
+// 灵感来源：深邃星空 + 薄荷清新
+// ============================================
+
+// ==================== 字体定义 ====================
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+// ==================== 主题色彩系统 ====================
+:root {
+  // 主色调 - 薄荷绿系
+  --yn-accent-primary: #2dd4bf;
+  --yn-accent-secondary: #5eead4;
+  --yn-accent-tertiary: #99f6e4;
+  --yn-accent-glow: rgba(45, 212, 191, 0.25);
+
+  // 状态色
+  --yn-success: #4ade80;
+  --yn-warning: #fbbf24;
+  --yn-error: #f87171;
+  --yn-info: #60a5fa;
+
+  // 动画时间
+  --yn-transition-fast: 0.15s;
+  --yn-transition-normal: 0.25s;
+  --yn-transition-slow: 0.4s;
+
+  // 阴影
+  --yn-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --yn-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --yn-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --yn-shadow-glow: 0 0 20px var(--yn-accent-glow);
+
+  // 圆角
+  --yn-radius-sm: 4px;
+  --yn-radius-md: 8px;
+  --yn-radius-lg: 12px;
+  --yn-radius-xl: 16px;
+}
+
+// ==================== 全局字体系统 ====================
+html {
+  font-family: 'Space Grotesk', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // 代码字体
+  --editor-font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+}
+
+code, pre, .monaco-editor, .xterm {
+  font-family: var(--editor-font-family) !important;
+}
+
+// ==================== 深色主题增强 ====================
+@media screen {
+  html[app-theme=dark],
+  html[app-theme=system] {
+    // 深邃星空背景色
+    --g-background-color: #0c0f14;
+    --g-foreground-color: #e2e8f0;
+
+    // 层次感背景
+    --yn-surface-1: #12161d;
+    --yn-surface-2: #1a1f2a;
+    --yn-surface-3: #232936;
+    --yn-surface-hover: rgba(45, 212, 191, 0.08);
+    --yn-surface-active: rgba(45, 212, 191, 0.15);
+
+    // 边框色
+    --yn-border-subtle: rgba(255, 255, 255, 0.06);
+    --yn-border-default: rgba(255, 255, 255, 0.1);
+    --yn-border-accent: var(--yn-accent-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html[app-theme=system] {
+    --g-background-color: #0c0f14;
+    --g-foreground-color: #e2e8f0;
+    --yn-surface-1: #12161d;
+    --yn-surface-2: #1a1f2a;
+    --yn-surface-3: #232936;
+  }
+}
+
+// ==================== 浅色主题增强 ====================
+html[app-theme=light]:root, :root {
+  --yn-surface-1: #ffffff;
+  --yn-surface-2: #f8fafc;
+  --yn-surface-3: #f1f5f9;
+  --yn-surface-hover: rgba(45, 212, 191, 0.06);
+  --yn-surface-active: rgba(45, 212, 191, 0.12);
+  --yn-border-subtle: rgba(0, 0, 0, 0.04);
+  --yn-border-default: rgba(0, 0, 0, 0.08);
+  --yn-border-accent: var(--yn-accent-primary);
+}
+
+// ==================== 滚动条美化 ====================
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--yn-accent-primary);
+  border-radius: 5px;
+  opacity: 0.5;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+
+  &:hover {
+    background: var(--yn-accent-secondary);
+    background-clip: padding-box;
+  }
+}
+
+// ==================== 按钮美化 ====================
+@media screen {
+  @layer global-screen {
+    button {
+      font-family: inherit;
+      font-weight: 500;
+      border-radius: var(--yn-radius-md);
+      transition: all var(--yn-transition-fast) ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+      }
+
+      &:hover::before {
+        transform: translateX(100%);
+      }
+
+      &.primary {
+        background: linear-gradient(135deg, var(--yn-accent-primary), #14b8a6);
+        color: #0c0f14;
+        font-weight: 600;
+        box-shadow: var(--yn-shadow-md), 0 0 20px var(--yn-accent-glow);
+
+        &:hover {
+          background: linear-gradient(135deg, var(--yn-accent-secondary), var(--yn-accent-primary));
+          transform: translateY(-1px);
+          box-shadow: var(--yn-shadow-lg), 0 0 30px var(--yn-accent-glow);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+
+    // 输入框美化
+    input:not([type=checkbox]):not([type=radio]):not([type=range]),
+    textarea,
+    select {
+      border-radius: var(--yn-radius-md);
+      border: 1px solid var(--yn-border-default);
+      background: var(--yn-surface-2);
+      transition: all var(--yn-transition-fast) ease;
+
+      &:focus {
+        border-color: var(--yn-accent-primary);
+        box-shadow: 0 0 0 3px var(--yn-accent-glow);
+        outline: none;
+      }
+    }
+  }
+}
+
+// ==================== 选中效果 ====================
+::selection {
+  background: var(--yn-accent-glow);
+  color: inherit;
+}
+
+// ==================== 链接样式 ====================
+a {
+  color: var(--yn-accent-primary);
+  text-decoration: none;
+  transition: all var(--yn-transition-fast) ease;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--yn-accent-secondary);
+    transition: width var(--yn-transition-normal) ease;
+  }
+
+  &:hover {
+    color: var(--yn-accent-secondary);
+    text-decoration: none;
+
+    &::after {
+      width: 100%;
+    }
+  }
+}
+

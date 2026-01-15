@@ -169,24 +169,35 @@ export default defineComponent({
 
 .menu {
   list-style: none;
-  padding: 1px;
+  padding: 6px;
   margin: 0;
   position: fixed;
   left: -99999px;
   top: -99999px;
   overflow-y: auto;
-  background: rgba(var(--g-color-90-rgb), 0.65);
-  backdrop-filter: var(--g-backdrop-filter);
-  border: 1px var(--g-color-84) solid;
-  border-left: 0;
-  border-top: 0;
+  background: var(--yn-surface-2, rgba(26, 31, 42, 0.95));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
   z-index: 1000;
   color: var(--g-foreground-color);
-  min-width: 9em;
+  min-width: 10em;
   cursor: default;
-  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 5px;
-  border-radius: var(--g-border-radius);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   user-select: none;
+  animation: menuFadeIn 0.2s ease;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .menu:focus {
@@ -194,8 +205,8 @@ export default defineComponent({
 }
 
 .menu > li.separator {
-  border-top: 1px rgba(var(--g-color-35-rgb), 0.25) solid;
-  margin: 3px 6px;
+  border-top: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  margin: 6px 12px;
 
   &:first-child,
   &:last-child,
@@ -205,26 +216,32 @@ export default defineComponent({
 }
 
 .menu > li.focus {
-  outline: 1px var(--g-color-accent) dashed;
+  outline: 1px var(--yn-accent-primary, #2dd4bf) dashed;
   outline-offset: -2px;
 }
 
 .menu > li.normal {
-  padding: 5px 20px;
+  padding: 8px 16px;
   cursor: default;
-  font-size: 12px;
-  border-radius: var(--g-border-radius);
+  font-size: 13px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  margin: 2px 0;
+  position: relative;
 
   .checked-icon {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    transform: translateX(-14px) translateY(1px) scaleX(0.8);
+    width: 12px;
+    height: 12px;
+    transform: translateX(-18px) translateY(1px);
+    color: var(--yn-accent-primary, #2dd4bf);
   }
 }
 
 .menu:not(.item-focus) > li.normal:hover {
-  background: var(--g-color-active-a);
+  background: linear-gradient(135deg, var(--yn-surface-active, rgba(45, 212, 191, 0.15)), var(--yn-surface-hover, rgba(45, 212, 191, 0.08)));
+  color: var(--yn-accent-primary, #2dd4bf);
+  transform: translateX(4px);
 }
 
 .menu > li.ellipsis > .label::after {
@@ -233,17 +250,17 @@ export default defineComponent({
 
 @include dark-theme {
   .menu {
-    background: rgba(var(--g-color-77-rgb), 0.65);
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 10px;
+    background: var(--yn-surface-2, rgba(26, 31, 42, 0.95));
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(0, 0, 0, 0.2);
   }
 
   .menu > li.normal:hover {
-    background: var(--g-color-active-b);
+    background: linear-gradient(135deg, var(--yn-surface-active, rgba(45, 212, 191, 0.15)), var(--yn-surface-hover, rgba(45, 212, 191, 0.08)));
   }
 
   .menu > li.separator {
-    border-top: 1px rgba(var(--g-color-90-rgb), 0.7) solid;
-    border-bottom: 1px rgba(var(--g-color-70-rgb), 0.7) solid;
+    border-top: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+    border-bottom: none;
   }
 }
 </style>

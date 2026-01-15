@@ -105,13 +105,14 @@ onBeforeUnmount(() => {
 .action-bar {
   height: 30px;
   flex: none;
-  border-bottom: 1px solid var(--g-color-87);
+  border-bottom: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   padding: 0 3px;
+  background: var(--yn-surface-1, #12161d);
 
   & > .title {
     position: absolute;
@@ -119,8 +120,12 @@ onBeforeUnmount(() => {
     width: 100%;
     text-align: center;
     display: block;
-    font-size: 14px;
-    color: var(--g-color-20);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--yn-accent-primary, #2dd4bf);
+    opacity: 0.8;
     z-index: -1;
     user-select: none;
   }
@@ -130,7 +135,7 @@ onBeforeUnmount(() => {
   }
 
   & > .btns {
-    background: var(--g-color-98);
+    background: transparent;
   }
 
   .btn {
@@ -144,7 +149,7 @@ onBeforeUnmount(() => {
     color: var(--g-color-20);
     border-radius: var(--g-border-radius);
     margin: 3px;
-    transition: .1s ease-in-out;
+    transition: all 0.15s ease;
 
     &.flat {
       width: 24px;
@@ -153,7 +158,8 @@ onBeforeUnmount(() => {
     }
 
     &.checked {
-      background: var(--g-color-active-c);
+      background: var(--yn-surface-active, rgba(45, 212, 191, 0.15));
+      color: var(--yn-accent-primary, #2dd4bf);
     }
 
     .svg-icon {
@@ -163,7 +169,9 @@ onBeforeUnmount(() => {
     }
 
     &:not(.disabled):not(.checked):hover {
-      background: var(--g-color-active-b);
+      background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
+      color: var(--yn-accent-primary, #2dd4bf);
+      transform: scale(1.1);
     }
 
     &.disabled {

@@ -1,0 +1,699 @@
+// ============================================
+// 🎨 组件深度定制样式
+// ============================================
+
+@import './custom-theme.scss';
+
+// ==================== 标题栏定制 ====================
+.title-bar {
+  background: linear-gradient(135deg, var(--yn-surface-1) 0%, var(--yn-surface-2) 100%) !important;
+  border-bottom: 1px solid var(--yn-border-subtle);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  .title {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+  }
+
+  .logo {
+    filter: drop-shadow(0 0 10px var(--yn-accent-glow));
+    transition: transform var(--yn-transition-fast) ease;
+
+    &:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  .action {
+    .btn {
+      border-radius: var(--yn-radius-sm);
+      transition: all var(--yn-transition-fast) ease;
+
+      &:hover {
+        background: var(--yn-surface-hover) !important;
+      }
+
+      &.btn-close:hover {
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      }
+
+      &.pin.ontop {
+        background: var(--yn-accent-glow) !important;
+      }
+    }
+
+    .icon {
+      background-color: var(--g-foreground-color);
+      opacity: 0.7;
+      transition: opacity var(--yn-transition-fast) ease;
+    }
+
+    .btn:hover .icon {
+      opacity: 1;
+    }
+  }
+}
+
+// ==================== 状态栏定制 ====================
+.status-bar {
+  background: linear-gradient(90deg, var(--yn-surface-1) 0%, var(--yn-surface-2) 50%, var(--yn-surface-1) 100%) !important;
+  border-top: 1px solid var(--yn-border-subtle);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+
+  .action {
+    transition: all var(--yn-transition-fast) ease;
+    border-radius: var(--yn-radius-sm);
+    margin: 2px;
+
+    &:hover {
+      background: var(--yn-surface-hover) !important;
+      color: var(--yn-accent-primary);
+    }
+  }
+}
+
+// ==================== 侧边栏（文件树）定制 ====================
+.layout > .main > .left {
+  background: linear-gradient(180deg, var(--yn-surface-1) 0%, var(--yn-surface-2) 100%) !important;
+  border-right: 1px solid var(--yn-border-subtle) !important;
+  box-shadow: inset -10px 0 30px rgba(0, 0, 0, 0.03);
+
+  // 文件树节点样式
+  .tree-node {
+    .name {
+      padding: 4px 8px;
+      margin: 1px 4px;
+      border-radius: var(--yn-radius-md);
+      transition: all var(--yn-transition-fast) ease;
+      font-size: 13px;
+
+      &:hover {
+        background: var(--yn-surface-hover);
+      }
+
+      &.selected {
+        background: linear-gradient(135deg, var(--yn-surface-active), rgba(45, 212, 191, 0.08)) !important;
+        border-left: 2px solid var(--yn-accent-primary);
+        font-weight: 500;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 3px;
+          height: 60%;
+          transform: translateY(-50%);
+          background: var(--yn-accent-primary);
+          border-radius: 0 2px 2px 0;
+          box-shadow: 0 0 10px var(--yn-accent-glow);
+        }
+      }
+    }
+
+    // 文件夹图标
+    .icon {
+      transition: transform var(--yn-transition-fast) ease;
+    }
+
+    details[open] > summary > .icon {
+      transform: rotate(90deg);
+      color: var(--yn-accent-primary);
+    }
+  }
+}
+
+// ==================== 操作栏定制 ====================
+.action-bar {
+  background: var(--yn-surface-1) !important;
+  border-bottom: 1px solid var(--yn-border-subtle) !important;
+
+  .title {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px !important;
+    letter-spacing: 0.1em;
+    color: var(--yn-accent-primary) !important;
+    opacity: 0.8;
+  }
+
+  .btns {
+    background: transparent !important;
+
+    .btn {
+      transition: all var(--yn-transition-fast) ease;
+
+      &:hover {
+        background: var(--yn-surface-hover) !important;
+        color: var(--yn-accent-primary);
+        transform: scale(1.1);
+      }
+
+      &.checked {
+        background: var(--yn-surface-active) !important;
+        color: var(--yn-accent-primary);
+      }
+    }
+  }
+}
+
+// ==================== 文件标签栏定制 ====================
+.file-tabs {
+  background: var(--yn-surface-1) !important;
+  border-bottom: 1px solid var(--yn-border-subtle);
+
+  .tabs {
+    .tab {
+      border-radius: var(--yn-radius-md) var(--yn-radius-md) 0 0;
+      margin: 4px 2px 0;
+      padding: 6px 12px;
+      font-size: 13px;
+      transition: all var(--yn-transition-fast) ease;
+      border: 1px solid transparent;
+      border-bottom: none;
+      position: relative;
+
+      &:hover {
+        background: var(--yn-surface-hover);
+      }
+
+      &.current {
+        background: var(--yn-surface-2) !important;
+        border-color: var(--yn-border-subtle);
+        font-weight: 500;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, var(--yn-accent-primary), var(--yn-accent-secondary));
+          border-radius: 2px 2px 0 0;
+        }
+      }
+
+      &.temporary {
+        opacity: 0.7;
+        font-style: italic;
+      }
+
+      // 关闭按钮
+      .close-btn {
+        opacity: 0;
+        transition: all var(--yn-transition-fast) ease;
+        border-radius: 50%;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.2);
+          color: #ef4444;
+        }
+      }
+
+      &:hover .close-btn {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// ==================== 编辑器区域定制 ====================
+.layout > .main > .right > .content {
+  background: var(--yn-surface-2);
+
+  .editor {
+    background: var(--g-background-color) !important;
+    border-right: 1px solid var(--yn-border-subtle) !important;
+
+    // Monaco 编辑器定制
+    .monaco-editor {
+      .margin {
+        background: transparent !important;
+      }
+
+      .line-numbers {
+        color: var(--yn-accent-primary) !important;
+        opacity: 0.5;
+      }
+
+      .current-line ~ .line-numbers {
+        opacity: 1;
+      }
+
+      // 光标
+      .cursor {
+        background: var(--yn-accent-primary) !important;
+        box-shadow: 0 0 10px var(--yn-accent-glow);
+      }
+
+      // 当前行高亮
+      .current-line {
+        background: var(--yn-surface-hover) !important;
+        border-left: 2px solid var(--yn-accent-primary);
+      }
+    }
+  }
+
+  .preview {
+    background: var(--yn-surface-1);
+    padding: 0;
+
+    // 分割线手柄
+    .sash-left {
+      background: transparent;
+      transition: background var(--yn-transition-fast) ease;
+
+      &:hover {
+        background: var(--yn-accent-primary);
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+// ==================== 预览器定制 ====================
+.default-previewer {
+  padding: 24px 32px;
+
+  // Markdown 内容样式
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 50%;
+      width: 4px;
+      height: 60%;
+      transform: translateY(-50%);
+      background: linear-gradient(180deg, var(--yn-accent-primary), var(--yn-accent-secondary));
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity var(--yn-transition-fast) ease;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 2em;
+    background: linear-gradient(135deg, var(--yn-accent-primary), var(--yn-accent-tertiary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  h2 {
+    font-size: 1.6em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid var(--yn-border-subtle);
+  }
+
+  // 代码块
+  pre {
+    background: var(--yn-surface-3) !important;
+    border-radius: var(--yn-radius-lg);
+    border: 1px solid var(--yn-border-subtle);
+    box-shadow: var(--yn-shadow-md);
+    padding: 16px;
+    overflow-x: auto;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--yn-accent-primary), var(--yn-accent-secondary), var(--yn-accent-tertiary));
+      border-radius: var(--yn-radius-lg) var(--yn-radius-lg) 0 0;
+    }
+
+    code {
+      font-family: var(--editor-font-family);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  }
+
+  // 行内代码
+  :not(pre) > code {
+    background: var(--yn-surface-3);
+    padding: 2px 6px;
+    border-radius: var(--yn-radius-sm);
+    font-family: var(--editor-font-family);
+    font-size: 0.9em;
+    color: var(--yn-accent-primary);
+    border: 1px solid var(--yn-border-subtle);
+  }
+
+  // 引用块
+  blockquote {
+    border-left: 4px solid var(--yn-accent-primary);
+    background: linear-gradient(90deg, var(--yn-surface-hover), transparent);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 0 var(--yn-radius-md) var(--yn-radius-md) 0;
+    font-style: italic;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // 表格
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    border-radius: var(--yn-radius-md);
+    overflow: hidden;
+    box-shadow: var(--yn-shadow-sm);
+
+    th, td {
+      padding: 12px 16px;
+      border: 1px solid var(--yn-border-subtle);
+    }
+
+    th {
+      background: linear-gradient(135deg, var(--yn-surface-2), var(--yn-surface-3));
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      letter-spacing: 0.05em;
+      color: var(--yn-accent-primary);
+    }
+
+    tr:nth-child(even) {
+      background: var(--yn-surface-hover);
+    }
+
+    tr:hover {
+      background: var(--yn-surface-active);
+    }
+  }
+
+  // 列表
+  ul, ol {
+    padding-left: 24px;
+
+    li {
+      margin: 8px 0;
+      position: relative;
+
+      &::marker {
+        color: var(--yn-accent-primary);
+      }
+    }
+  }
+
+  ul li::before {
+    content: '▸';
+    color: var(--yn-accent-primary);
+    position: absolute;
+    left: -20px;
+  }
+
+  // 任务列表
+  input[type="checkbox"] {
+    accent-color: var(--yn-accent-primary);
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  // 图片
+  img {
+    border-radius: var(--yn-radius-lg);
+    box-shadow: var(--yn-shadow-lg);
+    transition: all var(--yn-transition-normal) ease;
+    max-width: 100%;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: var(--yn-shadow-glow);
+    }
+  }
+
+  // 分割线
+  hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--yn-accent-primary), var(--yn-accent-secondary), var(--yn-accent-primary), transparent);
+    margin: 32px 0;
+  }
+}
+
+// ==================== 终端定制 ====================
+.terminal {
+  border-top: 1px solid var(--yn-border-subtle) !important;
+  background: var(--yn-surface-1) !important;
+
+  .xterm {
+    padding: 8px;
+
+    .xterm-screen {
+      border-radius: var(--yn-radius-md);
+    }
+  }
+}
+
+// ==================== 右键菜单定制 ====================
+.context-menu {
+  background: var(--yn-surface-2) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--yn-border-subtle) !important;
+  border-radius: var(--yn-radius-lg) !important;
+  box-shadow: var(--yn-shadow-lg), 0 0 40px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden;
+  padding: 6px !important;
+
+  .item {
+    border-radius: var(--yn-radius-md);
+    padding: 8px 12px;
+    transition: all var(--yn-transition-fast) ease;
+    margin: 2px 0;
+
+    &:hover {
+      background: linear-gradient(135deg, var(--yn-surface-active), var(--yn-surface-hover)) !important;
+      color: var(--yn-accent-primary);
+      transform: translateX(4px);
+    }
+
+    &.checked::before {
+      color: var(--yn-accent-primary);
+    }
+  }
+
+  .separator {
+    background: var(--yn-border-subtle) !important;
+    margin: 6px 12px !important;
+  }
+}
+
+// ==================== 弹窗/面板定制 ====================
+.modal-ui,
+.setting-panel,
+.export-panel,
+.control-center,
+.doc-history,
+.extension-manager {
+  background: var(--yn-surface-2) !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--yn-border-subtle) !important;
+  border-radius: var(--yn-radius-xl) !important;
+  box-shadow: var(--yn-shadow-lg), 0 0 60px rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden;
+
+  .header, .title {
+    background: linear-gradient(135deg, var(--yn-surface-1), var(--yn-surface-2)) !important;
+    border-bottom: 1px solid var(--yn-border-subtle);
+    font-weight: 600;
+  }
+}
+
+// ==================== 遮罩层定制 ====================
+.mask {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+// ==================== Toast 通知定制 ====================
+.toast {
+  background: var(--yn-surface-2) !important;
+  border: 1px solid var(--yn-border-subtle) !important;
+  border-radius: var(--yn-radius-lg) !important;
+  box-shadow: var(--yn-shadow-lg) !important;
+  padding: 12px 16px !important;
+
+  &.success {
+    border-left: 4px solid var(--yn-success) !important;
+  }
+
+  &.error {
+    border-left: 4px solid var(--yn-error) !important;
+  }
+
+  &.warning {
+    border-left: 4px solid var(--yn-warning) !important;
+  }
+
+  &.info {
+    border-left: 4px solid var(--yn-info) !important;
+  }
+}
+
+// ==================== 大纲定制 ====================
+.outline {
+  .outline-item {
+    padding: 4px 8px;
+    margin: 2px 4px;
+    border-radius: var(--yn-radius-md);
+    transition: all var(--yn-transition-fast) ease;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--yn-surface-hover);
+    }
+
+    &.active {
+      background: var(--yn-surface-active);
+      color: var(--yn-accent-primary);
+      font-weight: 500;
+      border-left: 3px solid var(--yn-accent-primary);
+    }
+  }
+}
+
+// ==================== 搜索面板定制 ====================
+.search-panel {
+  input {
+    background: var(--yn-surface-3) !important;
+    border: 1px solid var(--yn-border-subtle) !important;
+    border-radius: var(--yn-radius-md) !important;
+
+    &:focus {
+      border-color: var(--yn-accent-primary) !important;
+      box-shadow: 0 0 0 3px var(--yn-accent-glow) !important;
+    }
+  }
+
+  .result-item {
+    padding: 8px 12px;
+    border-radius: var(--yn-radius-md);
+    transition: all var(--yn-transition-fast) ease;
+
+    &:hover {
+      background: var(--yn-surface-hover);
+    }
+
+    .highlight {
+      background: var(--yn-accent-glow);
+      color: var(--yn-accent-primary);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+  }
+}
+
+// ==================== 动画效果 ====================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--yn-accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--yn-accent-glow), 0 0 30px var(--yn-accent-glow);
+  }
+}
+
+// 应用动画
+.context-menu {
+  animation: fadeIn var(--yn-transition-normal) ease;
+}
+
+.modal-ui,
+.setting-panel,
+.export-panel,
+.control-center {
+  animation: fadeIn var(--yn-transition-slow) ease;
+}
+
+.layout > .main > .left {
+  animation: slideInLeft var(--yn-transition-slow) ease;
+}
+
+.layout > .main > .right {
+  animation: slideInRight var(--yn-transition-slow) ease;
+}
+
+// 加载状态动画
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+// 聚焦状态发光
+*:focus-visible {
+  outline: 2px solid var(--yn-accent-primary);
+  outline-offset: 2px;
+  animation: glow 2s ease-in-out infinite;
+}
+

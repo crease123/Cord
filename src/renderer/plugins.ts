@@ -79,6 +79,7 @@ import viewLinks from '@fe/plugins/view-links'
 import insertTable from '@fe/plugins/insert-table'
 import textComparator from '@fe/plugins/text-comparator'
 import textAutospace from '@fe/plugins/text-autospace'
+import pomodoroTimer from '@fe/plugins/pomodoro-timer'
 
 export default [
   buildInRenderers,
@@ -162,4 +163,5 @@ export default [
   insertTable,
   textComparator,
   textAutospace,
+  pomodoroTimer,
 ]

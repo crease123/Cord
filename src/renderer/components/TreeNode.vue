@@ -394,8 +394,8 @@ export default defineComponent({
 
 <style scoped>
 .tree-node {
-  font-size: 15px;
-  line-height: 26px;
+  font-size: 14px;
+  line-height: 28px;
   cursor: default;
   color: var(--g-color-2);
 }
@@ -406,7 +406,7 @@ export default defineComponent({
 
 summary {
   outline: none;
-  height: 26px;
+  height: 28px;
   overflow: hidden;
   contain: strict;
   display: block;
@@ -421,27 +421,32 @@ summary.folder::marker {
 summary.folder::before {
   display: inline-block;
   width: 11px;
-  height: 27px;
-  content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGV2cm9uLWRvd24iIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDQ4IDUxMiIgPjxwYXRoIGZpbGw9IiM3YzdmODIiIGQ9Ik00NDEuOSAxNjcuM2wtMTkuOC0xOS44Yy00LjctNC43LTEyLjMtNC43LTE3IDBMMjI0IDMyOC4yIDQyLjkgMTQ3LjVjLTQuNy00LjctMTIuMy00LjctMTcgMEw2LjEgMTY3LjNjLTQuNyA0LjctNC43IDEyLjMgMCAxN2wyMDkuNCAyMDkuNGM0LjcgNC43IDEyLjMgNC43IDE3IDBsMjA5LjQtMjA5LjRjNC43LTQuNyA0LjctMTIuMyAwLTE3eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg==);
+  height: 28px;
+  content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGV2cm9uLWRvd24iIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDQ4IDUxMiIgPjxwYXRoIGZpbGw9IiMyZGQ0YmYiIGQ9Ik00NDEuOSAxNjcuM2wtMTkuOC0xOS44Yy00LjctNC43LTEyLjMtNC43LTE3IDBMMjI0IDMyOC4yIDQyLjkgMTQ3LjVjLTQuNy00LjctMTIuMy00LjctMTcgMEw2LjEgMTY3LjNjLTQuNyA0LjctNC43IDEyLjMgMCAxN2wyMDkuNCAyMDkuNGM0LjcgNC43IDEyLjMgNC43IDE3IDBsMjA5LjQtMjA5LjRjNC43LTQuNyA0LjctMTIuMyAwLTE3eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg==);
   margin-right: 3px;
   transform: rotate(-90deg);
-  transition: transform 0.1s;
+  transition: transform 0.2s ease;
+  opacity: 0.6;
 }
 
 details.name[open] > summary.folder::before {
   transform: rotate(0);
+  opacity: 1;
 }
 
 .folder {
   align-items: center;
+  border-radius: 8px;
+  margin: 2px 4px;
+  transition: all 0.15s ease;
 }
 
 .folder:hover {
-  background: var(--g-color-90);
+  background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
 }
 
 .folder-selected {
-  background: var(--g-color-95)
+  background: var(--yn-surface-active, rgba(45, 212, 191, 0.15));
 }
 
 .item {
@@ -461,9 +466,10 @@ summary > .item {
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
-  height: 26px;
+  height: 28px;
   font-variant-numeric: tabular-nums;
   flex-grow: 1;
+  transition: transform 0.1s ease;
 }
 
 .item-action {
@@ -482,11 +488,13 @@ summary > .item {
   width: 20px;
   border-radius: 50%;
   color: var(--g-color-30);
+  transition: all 0.15s ease;
 }
 
 .item-action .icon:hover {
-  background: var(--g-color-70);
-  color: var(--g-color-20);
+  background: var(--yn-surface-active, rgba(45, 212, 191, 0.15));
+  color: var(--yn-accent-primary, #2dd4bf);
+  transform: scale(1.1);
 }
 
 .item:hover .item-action {
@@ -494,15 +502,15 @@ summary > .item {
 }
 
 .item .count {
-  color: var(--g-color-30);
-  font-size: 12px;
+  color: var(--yn-accent-primary, #2dd4bf);
+  font-size: 11px;
   vertical-align: bottom;
-
   opacity: 0;
+  transition: opacity 0.15s ease;
 }
 
 .item:hover .count {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .name {
@@ -513,9 +521,10 @@ summary > .item {
 
 .name.drag-over {
   opacity: 0.5;
-  outline: 2px #4790fe dashed;
+  outline: 2px var(--yn-accent-primary, #2dd4bf) dashed;
   outline-offset: -4px;
   transition-delay: 0s;
+  border-radius: 8px;
 
   summary {
     contain: none;
@@ -524,30 +533,39 @@ summary > .item {
 
 .file-name {
   padding-left: 0.2em;
-  transition: 50ms ease;
-  border-left: 4px solid transparent;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  margin: 2px 4px;
 }
 
 .file-name.selected {
-  background: var(--g-color-85);
-  border-left-color: var(--g-color-60);
+  background: linear-gradient(135deg, var(--yn-surface-active, rgba(45, 212, 191, 0.15)), var(--yn-surface-hover, rgba(45, 212, 191, 0.08)));
+  border-left-color: var(--yn-accent-primary, #2dd4bf);
+  font-weight: 500;
 }
 
 .file-name:hover {
-  background: var(--g-color-85);
+  background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
 }
 
 .file-name .item-label::before {
   display: inline-block;
   width: 12px;
   height: 24px;
-  margin-right: 4px;
+  margin-right: 6px;
   content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhbCIgZGF0YS1pY29uPSJmaWxlLWNoYXJ0LXBpZSIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIiBjbGFzcz0ic3ZnLWlubGluZS0tZmEgZmEtZmlsZS1jaGFydC1waWUgZmEtdy0xMiI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTM2OS45IDk3Ljk4TDI4Ni4wMiAxNC4xYy05LTktMjEuMi0xNC4xLTMzLjg5LTE0LjFINDcuOTlDMjEuNS4xIDAgMjEuNiAwIDQ4LjA5djQxNS45MkMwIDQ5MC41IDIxLjUgNTEyIDQ3Ljk5IDUxMmgyODguMDJjMjYuNDkgMCA0Ny45OS0yMS41IDQ3Ljk5LTQ3Ljk5VjEzMS45N2MwLTEyLjY5LTUuMS0yNC45OS0xNC4xLTMzLjk5ek0yNTYuMDMgMzIuNTljMi44LjcgNS4zIDIuMSA3LjQgNC4ybDgzLjg4IDgzLjg4YzIuMSAyLjEgMy41IDQuNiA0LjIgNy40aC05NS40OFYzMi41OXptOTUuOTggNDMxLjQyYzAgOC44LTcuMiAxNi0xNiAxNkg0Ny45OWMtOC44IDAtMTYtNy4yLTE2LTE2VjQ4LjA5YzAtOC44IDcuMi0xNi4wOSAxNi0xNi4wOWgxNzYuMDR2MTA0LjA3YzAgMTMuMyAxMC43IDIzLjkzIDI0IDIzLjkzaDEwMy45OHYzMDQuMDF6TTE5MiAxOTJ2MTI4aDEyNy45OWMuMDEgMCAwLS4wMSAwLS4wMi0uMDEtNzAuNjgtNTcuMjktMTI3Ljk3LTEyNy45Ny0xMjcuOThIMTkyem0zMiAzNy40OWMyNy4yMiA5LjY2IDQ4Ljg1IDMxLjI4IDU4LjUgNTguNTFIMjI0di01OC41MXpNMTc2IDQxNmMtNDQuMTIgMC04MC0zNS44OS04MC04MCAwLTM4LjYzIDI3LjUyLTcwLjk1IDY0LTc4LjM4di0zMmMtNTQuMTMgNy44NS05NiA1NC4xMS05NiAxMTAuMzggMCA2MS43NSA1MC4yNSAxMTIgMTEyIDExMiA1Ni4yNyAwIDEwMi41NC00MS44NyAxMTAuMzgtOTZoLTMyYy03LjQzIDM2LjQ3LTM5Ljc0IDY0LTc4LjM4IDY0eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg==);
   vertical-align: middle;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.file-name:hover .item-label::before {
+  opacity: 1;
 }
 
 .file-name .item-label.type-md::before {
-  content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhbCIgZGF0YS1pY29uPSJmaWxlLWFsdCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIiBjbGFzcz0ic3ZnLWlubGluZS0tZmEgZmEtZmlsZS1hbHQgZmEtdy0xMiI+PHBhdGggZmlsbD0iIzk5OSIgZD0iTTM2OS45IDk3LjlMMjg2IDE0QzI3NyA1IDI2NC44LS4xIDI1Mi4xLS4xSDQ4QzIxLjUgMCAwIDIxLjUgMCA0OHY0MTZjMCAyNi41IDIxLjUgNDggNDggNDhoMjg4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjEzMS45YzAtMTIuNy01LjEtMjUtMTQuMS0zNHptLTIyLjYgMjIuN2MyLjEgMi4xIDMuNSA0LjYgNC4yIDcuNEgyNTZWMzIuNWMyLjguNyA1LjMgMi4xIDcuNCA0LjJsODMuOSA4My45ek0zMzYgNDgwSDQ4Yy04LjggMC0xNi03LjItMTYtMTZWNDhjMC04LjggNy4yLTE2IDE2LTE2aDE3NnYxMDRjMCAxMy4zIDEwLjcgMjQgMjQgMjRoMTA0djMwNGMwIDguOC03LjIgMTYtMTYgMTZ6bS00OC0yNDR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6bTAgNjR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6bTAgNjR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6IiBjbGFzcz0iIj48L3BhdGg+PC9zdmc+);
+  content: url(data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhbCIgZGF0YS1pY29uPSJmaWxlLWFsdCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIiBjbGFzcz0ic3ZnLWlubGluZS0tZmEgZmEtZmlsZS1hbHQgZmEtdy0xMiI+PHBhdGggZmlsbD0iIzJkZDRiZiIgZD0iTTM2OS45IDk3LjlMMjg2IDE0QzI3NyA1IDI2NC44LS4xIDI1Mi4xLS4xSDQ4QzIxLjUgMCAwIDIxLjUgMCA0OHY0MTZjMCAyNi41IDIxLjUgNDggNDggNDhoMjg4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjEzMS45YzAtMTIuNy01LjEtMjUtMTQuMS0zNHptLTIyLjYgMjIuN2MyLjEgMi4xIDMuNSA0LjYgNC4yIDcuNEgyNTZWMzIuNWMyLjguNyA1LjMgMi4xIDcuNCA0LjJsODMuOSA4My45ek0zMzYgNDgwSDQ4Yy04LjggMC0xNi03LjItMTYtMTZWNDhjMC04LjggNy4yLTE2IDE2LTE2aDE3NnYxMDRjMCAxMy4zIDEwLjcgMjQgMjQgMjRoMTA0djMwNGMwIDguOC03LjIgMTYtMTYgMTZ6bS00OC0yNDR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6bTAgNjR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6bTAgNjR2OGMwIDYuNi01LjQgMTItMTIgMTJIMTA4Yy02LjYgMC0xMi01LjQtMTItMTJ2LThjMC02LjYgNS40LTEyIDEyLTEyaDE2OGM2LjYgMCAxMiA1LjQgMTIgMTJ6IiBjbGFzcz0iIj48L3BhdGg+PC9zdmc+);
 }
 
 .file-name .item-label:active {
@@ -560,13 +578,14 @@ summary > .item {
 
 .marked::after {
   content: '';
-  width: 10px;
-  height: 10px;
-  background: #569bd5;
+  width: 8px;
+  height: 8px;
+  background: var(--yn-accent-primary, #2dd4bf);
   border-radius: 50%;
   position: absolute;
-  left: -5px;
-  top: 34%;
+  left: -4px;
+  top: 36%;
+  box-shadow: 0 0 8px var(--yn-accent-glow, rgba(45, 212, 191, 0.25));
 }
 
 .name {

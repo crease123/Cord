@@ -283,27 +283,29 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-wrapper {
   flex: none;
-  height: 30px;
+  height: 32px;
   width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
-  background: var(--g-color-87);
+  background: var(--yn-surface-1, #12161d);
+  border-bottom: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
 
   .action-btn {
     flex: none;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     margin: 0 3px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--g-color-20);
+    border-radius: 6px;
+    transition: all 0.15s ease;
 
     &:hover {
-      color: var(--g-color-0);
-      background-color: var(--g-color-75);
-      border-radius: 50%;
+      color: var(--yn-accent-primary, #2dd4bf);
+      background-color: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
     }
   }
 }
@@ -316,6 +318,7 @@ export default defineComponent({
   overflow-x: hidden;
   overflow-y: hidden;
   order: -1024;
+  padding-left: 4px;
 
   &::before,
   &::after {
@@ -325,7 +328,7 @@ export default defineComponent({
     width: 4px;
     flex: none;
     margin-left: -4px;
-    height: 30px;
+    height: 32px;
     display: block;
     pointer-events: none;
     opacity: 1;
@@ -360,7 +363,9 @@ export default defineComponent({
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--g-color-72) !important;
+    background-color: var(--yn-accent-primary, #2dd4bf) !important;
+    border-radius: 2px;
+    opacity: 0.5;
   }
 }
 
@@ -371,16 +376,24 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-right: 1px;
+  margin: 4px 2px 0;
   color: var(--g-color-25);
   cursor: default;
   font-size: 12px;
   overflow: hidden;
-  background: var(--g-color-87);
+  background: transparent;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  border-bottom: none;
+
+  &:hover {
+    background: var(--yn-surface-hover, rgba(45, 212, 191, 0.08));
+  }
 }
 
 .label {
-  padding: 5px;
+  padding: 6px 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -388,11 +401,21 @@ export default defineComponent({
 
 .tab.current {
   color: var(--g-color-0);
-  background: var(--g-color-100);
-  border-radius: var(--g-border-radius);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  background: var(--yn-surface-2, #1a1f2a);
+  border-color: var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  font-weight: 500;
   position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--yn-accent-primary, #2dd4bf), var(--yn-accent-secondary, #5eead4));
+    border-radius: 2px 2px 0 0;
+  }
 }
 
 .icon {
@@ -405,30 +428,41 @@ export default defineComponent({
   border-radius: 50%;
   margin-right: 5px;
   flex: none;
+  opacity: 0;
+  transition: all 0.15s ease;
+}
+
+.tab:hover .icon {
+  opacity: 1;
 }
 
 .icon:hover {
-  color: var(--g-color-40);
-  background: var(--g-color-75);
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .tab.on-sort {
-  background: var(--g-color-75);
+  background: var(--yn-surface-active, rgba(45, 212, 191, 0.15));
 }
 
 .tab.fixed {
-  font-weight: bold;
-  border-left: 2px var(--g-color-70) solid;
+  font-weight: 600;
+  border-left: 2px var(--yn-accent-primary, #2dd4bf) solid;
+
+  .icon {
+    opacity: 0.7;
+  }
 }
 
 .tab.temporary {
   font-style: italic;
+  opacity: 0.7;
 }
 
 .action-btn-separator {
   width: 1px;
   height: 14px;
-  background: var(--g-color-70);
+  background: var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
   margin: 0 3px;
   flex: none;
 

@@ -302,10 +302,12 @@ export default defineComponent({
   width: 17vw;
   flex: none;
   height: 100%;
-  border-right: 1px solid var(--g-color-86);
+  border-right: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
   display: flex;
   flex-direction: column;
-  background: var(--g-color-98);
+  background: linear-gradient(180deg, var(--yn-surface-1, #12161d) 0%, var(--yn-surface-2, #1a1f2a) 100%);
+  box-shadow: inset -10px 0 30px rgba(0, 0, 0, 0.03);
+  animation: slideInLeft 0.4s ease;
 
   ::v-deep(.action-bar .btns) {
     opacity: 0;
@@ -314,6 +316,28 @@ export default defineComponent({
 
   &:hover ::v-deep(.action-bar .btns) {
     opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -326,6 +350,13 @@ export default defineComponent({
   width: 4px;
   cursor: ew-resize;
   pointer-events: auto;
+  background: transparent;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--yn-accent-primary, #2dd4bf);
+    opacity: 0.5;
+  }
 }
 
 .sash-right {
@@ -337,6 +368,13 @@ export default defineComponent({
   width: 4px;
   cursor: ew-resize;
   pointer-events: auto;
+  background: transparent;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--yn-accent-primary, #2dd4bf);
+    opacity: 0.5;
+  }
 }
 
 .sash-top {
@@ -348,6 +386,13 @@ export default defineComponent({
   height: 4px;
   cursor: ns-resize;
   pointer-events: auto;
+  background: transparent;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--yn-accent-primary, #2dd4bf);
+    opacity: 0.5;
+  }
 }
 
 .right {
@@ -357,6 +402,7 @@ export default defineComponent({
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  animation: slideInRight 0.4s ease;
 }
 
 .right-before {
@@ -377,13 +423,16 @@ export default defineComponent({
   min-width: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--g-color-86);
+  border-right: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  background: var(--g-background-color);
 }
 
 .terminal {
   height: 200px;
   flex: none;
   position: relative;
+  border-top: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  background: var(--yn-surface-1, #12161d);
 }
 
 .preview {
@@ -392,6 +441,7 @@ export default defineComponent({
   min-width: 0;
   box-sizing: border-box;
   position: relative;
+  background: var(--yn-surface-1, #12161d);
 
   &.preview-hidden {
     visibility: hidden;
