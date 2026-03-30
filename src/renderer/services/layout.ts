@@ -8,6 +8,10 @@ import * as view from './view'
 import { t } from './i18n'
 import { getEditor } from './editor'
 
+
+// - 节流 vs 防抖 : 节流是在固定时间间隔内最多执行一次，防抖是停止触发后延迟执行
+// - 50ms 间隔 : 这是用户体验和性能之间的平衡点
+// - leading: true : 确保第一次调用立即执行，提升响应性
 const emitResizeDebounce = throttle(() => {
   triggerHook('GLOBAL_RESIZE')
 }, 50, { leading: true })

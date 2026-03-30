@@ -6,7 +6,9 @@
 
 // ==================== 标题栏定制 ====================
 .title-bar {
-  background: linear-gradient(135deg, var(--yn-surface-1) 0%, var(--yn-surface-2) 100%) !important;
+  background: linear-gradient(135deg, var(--yn-surface-1) 0%, var(--yn-surface-2) 100%) !important;   //!important - CSS 优先级标记    - 强制应用这个样式，覆盖其他可能的样式定义
+
+
   border-bottom: 1px solid var(--yn-border-subtle);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);

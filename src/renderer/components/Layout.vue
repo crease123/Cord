@@ -305,7 +305,7 @@ export default defineComponent({
   border-right: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, var(--yn-surface-1, #12161d) 0%, var(--yn-surface-2, #1a1f2a) 100%);
+  background: linear-gradient(180deg, var(--yn-surface-1, #eeeff1) 0%, var(--yn-surface-2, #dfe1e6) 100%);
   box-shadow: inset -10px 0 30px rgba(0, 0, 0, 0.03);
   animation: slideInLeft 0.4s ease;
 

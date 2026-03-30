@@ -80,10 +80,10 @@ export default {
     // ============================================
 
     // 获取设置的工作时间（分钟）
-    const getWorkDuration = () => ctx.setting.getSetting('plugin.pomodoro.work-duration', 25) * 60
+    const getWorkDuration = () => (ctx.setting.getSetting('plugin.pomodoro.work-duration' as any, 25) as number) * 60
 
     // 获取设置的休息时间（分钟）
-    const getBreakDuration = () => ctx.setting.getSetting('plugin.pomodoro.break-duration', 5) * 60
+    const getBreakDuration = () => (ctx.setting.getSetting('plugin.pomodoro.break-duration' as any, 5) as number) * 60
 
     // 清除定时器
     const clearTimer = () => {
@@ -104,10 +104,10 @@ export default {
         if (timerStatus.value === 'working') {
           // 工作结束，进入休息
           completedPomodoros.value++
-          ctx.ui.useToast().show('success', `🎉 完成第 ${completedPomodoros.value} 个番茄！休息一下吧`)
+          ctx.ui.useToast().show('info', `🎉 完成第 ${completedPomodoros.value} 个番茄！休息一下吧`)
 
           // 自动开始休息时间
-          if (ctx.setting.getSetting('plugin.pomodoro.auto-break', true)) {
+          if (ctx.setting.getSetting('plugin.pomodoro.auto-break' as any, true) as boolean) {
             startBreak()
           } else {
             timerStatus.value = 'idle'
@@ -236,7 +236,7 @@ export default {
             type: 'normal',
             title: '📊 今日统计',
             onClick: () => {
-              const totalMinutes = completedPomodoros.value * ctx.setting.getSetting('plugin.pomodoro.work-duration', 25)
+              const totalMinutes = completedPomodoros.value * (ctx.setting.getSetting('plugin.pomodoro.work-duration' as any, 25) as number)
               ctx.ui.useModal().alert({
                 title: '📊 番茄钟统计',
                 component: (
@@ -271,12 +271,7 @@ export default {
     // 4. 注册设置项
     // ============================================
 
-    ctx.setting.changeSchema(schema => {
-      schema.groups.push({
-        label: '🍅 番茄钟',
-        value: 'pomodoro'
-      })
-
+    ctx.setting.changeSchema((schema: any) => {
       schema.properties['plugin.pomodoro.work-duration'] = {
         defaultValue: 25,
         title: '工作时间（分钟）',
@@ -284,7 +279,7 @@ export default {
         type: 'number',
         minimum: 1,
         maximum: 120,
-        group: 'pomodoro',
+        group: 'other',
         required: true
       }
 
@@ -295,7 +290,7 @@ export default {
         type: 'number',
         minimum: 1,
         maximum: 60,
-        group: 'pomodoro',
+        group: 'other',
         required: true
       }
 
@@ -305,7 +300,7 @@ export default {
         description: '完成一个番茄后自动开始休息时间',
         type: 'boolean',
         format: 'checkbox',
-        group: 'pomodoro',
+        group: 'other',
         required: true
       }
     })

@@ -39,6 +39,8 @@ import * as repo from '@fe/services/repo'
 import * as lib from './lib'
 import * as components from './components'
 
+
+// 2. 创建上下文对象，包含所有服务和组件
 const ctx = Object.freeze({
   lib,
   components,
@@ -84,11 +86,11 @@ const ctx = Object.freeze({
   getPluginApi: plugin.getApi,
   version: __APP_VERSION__,
 })
-
+// 3. 注册到 window 全局对象，方便在控制台直接访问
 Object.defineProperty(window, 'ctx', {
-  configurable: false,
-  writable: false,
-  value: ctx,
+  configurable: false,    // 不可重新配置
+  writable: false,        // 不可重新赋值 
+  value: ctx,             // 注册到 window 上，方便在控制台直接访问
 })
 
 export type Ctx = typeof ctx

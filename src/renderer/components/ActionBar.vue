@@ -105,14 +105,15 @@ onBeforeUnmount(() => {
 .action-bar {
   height: 30px;
   flex: none;
-  border-bottom: 1px solid var(--yn-border-subtle, rgba(255, 255, 255, 0.06));
+  border-bottom: 1px solid var(--yn-border-subtle, rgba(224, 12, 12, 0.06));
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   padding: 0 3px;
-  background: var(--yn-surface-1, #12161d);
+  background: var(--yn-surface-1, 
+  #014dd1);
 
   & > .title {
     position: absolute;

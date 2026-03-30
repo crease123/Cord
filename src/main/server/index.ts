@@ -765,119 +765,158 @@ export async function killPtyProcesses (pty?: NodePty.IPty) {
   }
 }
 
+/**
+ * 创建并配置 HTTP 服务器
+ * @param port - 服务器监听端口，默认 3000
+ * @returns 返回包含 callback 和 server 实例的对象
+ */
 const server = (port = 3000) => {
+  // 创建 Koa 应用实例
   const app = new Koa()
 
+  // 注册权限检查中间件（第一道防线，验证请求合法性）
   app.use(async (ctx: any, next: any) => await wrapper(ctx, next, checkPermission))
+  // 注册代理转发中间件（处理 /api/proxy-fetch/* 请求）
   app.use(async (ctx: any, next: any) => await wrapper(ctx, next, proxy))
 
+  // 注册请求体解析中间件，支持多种格式
   app.use(bodyParser({
-    multipart: true,
-    formLimit: '50mb',
-    jsonLimit: '50mb',
-    textLimit: '50mb',
+    multipart: true,              // 支持 multipart/form-data（文件上传）
+    formLimit: '50mb',            // 表单数据大小限制
+    jsonLimit: '50mb',            // JSON 数据大小限制
+    textLimit: '50mb',            // 纯文本数据大小限制
     formidable: {
-      maxFieldsSize: 268435456
+      maxFieldsSize: 268435456    // 表单字段最大大小（256MB）
     }
   }))
 
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, fileContent))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, attachment))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, plantumlGen))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, runCode))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, convertFile))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, searchFile))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, readme))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userPlugin))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, customCss))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userExtension))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, premiumManage))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, setting))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, choose))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, tmpFile))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userFile))
-  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, rpc))
+  // 注册业务中间件（按顺序匹配处理）
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, fileContent))        // 文件读写 API (/api/file, /api/tree 等)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, attachment))         // 附件上传下载 API (/api/attachment)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, plantumlGen))        // PlantUML 图表生成 API (/api/plantuml)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, runCode))            // 代码运行 API (/api/run)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, convertFile))        // 文件转换 API (/api/convert/*)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, searchFile))         // 文件搜索 API (/api/search)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, readme))             // 帮助文档 API (/api/help)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userPlugin))         // 用户插件 API (/api/plugins)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, customCss))          // 自定义样式 API (/api/custom-styles, /custom-css)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userExtension))      // 扩展管理 API (/api/extensions, /extensions/*)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, premiumManage))      // 高级功能管理 API (/api/premium)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, setting))            // 设置管理 API (/api/settings)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, choose))             // 文件选择对话框 API (/api/choose)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, tmpFile))            // 临时文件 API (/api/tmp-file)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, userFile))           // 用户文件 API (/api/user-file, /api/user-dir)
+  app.use(async (ctx: any, next: any) => await wrapper(ctx, next, rpc))                // RPC 调用 API (/api/rpc)
 
-  // static file
+  // 静态文件服务中间件（处理最后的路径匹配）
   app.use(async (ctx: any, next: any) => {
+    // 解码 URL 路径并移除 /static/ 前缀或开头的 /
     const urlPath = decodeURIComponent(ctx.path).replace(/^(\/static\/|\/)/, '')
 
+    // 优先从 STATIC_DIR（内置静态资源目录）查找文件
+    // 如果找不到且 fullback=true，则返回 index.html
     if (!(await sendFile(ctx, next, path.resolve(STATIC_DIR, urlPath), false))) {
+      // 如果内置目录没有，则从用户主题目录查找
       await sendFile(ctx, next, path.resolve(USER_THEME_DIR, urlPath), true)
     }
   })
 
+  // 获取 Koa 应用的回调函数（用于创建 HTTP 服务器）
   const callback = app.callback()
 
+  // 如果服务器功能被禁用，只返回 callback（不启动 HTTP 监听）
   if (FLAG_DISABLE_SERVER) {
     return { callback }
   }
 
+  // 创建原生 HTTP 服务器，使用 Koa 的 callback 作为请求处理器
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const server = require('http').createServer(callback)
+  // 创建 Socket.IO 服务器，绑定到 HTTP 服务器，设置 WebSocket 路径为 /ws
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const io = require('socket.io')(server, { path: '/ws' })
   // eslint-disable-next-line @typescript-eslint/no-var-requires
 
+  // node-pty 模块引用（用于创建伪终端）
   let pty: typeof NodePty | null = null
 
+  // 尝试加载 node-pty 模块（某些平台可能不支持）
   try {
     pty = require('node-pty')
   } catch (error) {
     console.error(error)
   }
 
+  // 监听 WebSocket 连接事件
   io.on('connection', (socket: any) => {
+    // 安全检查：只允许 localhost 连接（防止远程访问终端）
     if (!isLocalhost(socket.client.conn.remoteAddress)) {
       socket.disconnect()
       return
     }
 
+    // 如果 node-pty 可用，则创建伪终端
     if (pty) {
+      // 解析环境变量配置（从 WebSocket 握手参数中获取）
       const env = JSON.parse(socket.handshake.query.env || '{}')
 
+      // 创建伪终端进程
       const ptyProcess = pty.spawn(shell.getShell(), [], {
-        name: 'xterm-color',
-        cols: 80,
-        rows: 24,
-        cwd: socket.handshake.query.cwd || HOME_DIR,
-        env: { ...process.env, ...env },
+        name: 'xterm-color',                    // 终端类型名称
+        cols: 80,                               // 初始列数
+        rows: 24,                               // 初始行数
+        cwd: socket.handshake.query.cwd || HOME_DIR,  // 工作目录
+        env: { ...process.env, ...env },        // 合并环境变量
       })
 
+      // 将 PTY 进程加入管理列表（用于退出时清理）
       ptyProcesses.push(ptyProcess)
 
+      // 定义进程清理函数
       const kill = () => {
         killPtyProcesses(ptyProcess)
       }
 
+      // 监听 PTY 进程的输出数据，通过 WebSocket 发送给客户端
       ptyProcess.onData((data: any) => socket.emit('output', data))
+      // 监听 PTY 进程退出事件
       ptyProcess.onExit(() => {
         console.log('ptyProcess exit')
-        socket.disconnect()
-        process.off('exit', kill)
+        socket.disconnect()           // 断开 WebSocket 连接
+        process.off('exit', kill)     // 移除进程退出监听
       })
 
+      // 监听客户端输入事件（用户在终端中输入的命令）
       socket.on('input', (data: any) => {
+        // 如果是 cd 命令前缀，需要转换命令格式
         if (data.startsWith(shell.CD_COMMAND_PREFIX)) {
           ptyProcess.write(shell.transformCdCommand(data.toString()))
         } else {
           ptyProcess.write(data)
         }
       })
+      // 监听终端大小调整事件
       socket.on('resize', (size: any) => ptyProcess.resize(size[0], size[1]))
+      // 监听客户端断开连接事件，清理 PTY 进程
       socket.on('disconnect', kill)
 
+      // 监听主进程退出事件，确保 PTY 进程被清理
       process.on('exit', kill)
     } else {
+      // node-pty 不可用时，发送错误提示
       socket.emit('output', 'node-pty is not compatible with this platform. Please install another version from GitHub https://github.com/purocean/yn/releases')
     }
   })
 
+  // 从配置中获取服务器监听地址，默认 127.0.0.1（仅本地访问）
   const host = config.get('server.host', '127.0.0.1')
+  // 启动 HTTP 服务器监听
   server.listen(port, host)
 
+  // 输出服务器地址到控制台
   console.log(`Address: http://${host}:${port}`)
 
+  // 返回 callback 和 server 实例
   return { callback, server }
 }
 

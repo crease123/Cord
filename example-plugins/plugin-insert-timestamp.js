@@ -66,7 +66,7 @@ window.registerPlugin({
     // 添加样式
     ctx.theme.addStyles(`
       .status-bar-menu [data-id="insert-timestamp"] {
-        font-size: 14px;
+        font-size: 4px;
       }
     `)
   }

@@ -4,11 +4,11 @@ import type { Action, ActionHandler, BuildInActionName } from '@fe/types'
 import { triggerHook } from './hook'
 import * as ioc from './ioc'
 
-const logger = getLogger('action')
+const logger = getLogger('action')      //创建一个专用于 Action 模块的日志记录器
 
-export type HookType = 'before-run' | 'after-run'
+export type HookType = 'before-run' | 'after-run'   //：定义生命周期的两个关键时刻，指导钩子系统设计
 
-const actions: { [id: string]: Action<string> } = {}
+const actions: { [id: string]: Action<string> } = {}    //全局存储所有已注册的 Action 对象
 
 /**
  * Get all actions
@@ -23,7 +23,7 @@ export function getRawActions (): Action[] {
  * @param tapper
  */
 export function tapAction (tapper: (action: Action) => void) {
-  ioc.register('ACTION_TAPPERS', tapper)
+  ioc.register('ACTION_TAPPERS', tapper)    //tapper函数可以修改action对象的属性
 }
 
 /**
@@ -111,7 +111,7 @@ export function getActionHandler <T extends string> (name: T): ActionHandler<T> 
         // ========== 第4步：执行原始 handler ==========
         // apply(null, args) 相当于 handler(...args)
         // 使用 apply 可以传递任意数量的参数
-        // ?. 是可选链，防止 handler 为 undefined
+        // 如果 action.handler 存在（不是null或undefined），则执行 .apply() 方法，否则返回 undefined
         result = (action.handler)?.apply(null, args)
       }
     }
@@ -169,6 +169,8 @@ export function getAction (name: string) {
 
     // 依次调用每个 tapper，传入 action 对象
     // tapper 可以直接修改 action 的属性（因为是拷贝，不影响原对象）
+    // 如果 tappers 存在（不是null或undefined），则执行 forEach 方法，否则不执行
+    // 每个 tapper 都会收到 action 对象作为参数
     tappers?.forEach(tap => tap(action))
   }
 
